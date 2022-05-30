@@ -1,0 +1,24 @@
+groups:
+  - name: bancodigital
+    rules:
+      - alert: altoUsoCPU
+        expr: system_cpu_usage > 0.5
+        for: 5m
+        labels:
+          app: bancodigital-cpu
+          severity: critical
+        annotations:
+          title: Alto uso da CPU
+          summary: A utilização da CPU está mais alta do que o normal
+          description: O uso da CPU está acima de 0.5
+
+      - alert: altaTaxaDeErrosNasRequisicoes
+        expr: rate(http_server_requests_seconds_count{status="500"}[1m]) >= 0.5
+        for: 10m
+        labels:
+          app: bancodigital-http-server-requests-error
+          severity: critical
+        annotations:
+          title: Taxa de Erro alta
+          summary: A taxa de erro das requisições http está com valores além do normal.
+          description: Mais de 50% das requisições http estão com erro.
